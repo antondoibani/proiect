@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Order Details</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>
+    Data creare comanda: {{orders?.datePlaced | date}}
+    <br>
+    Initiator comanda: {{orders?.shipping.name}}
+    <br>
+    Adresa (oras): {{orders?.shipping.city}}
+    <br>
+    Adresa (adresa 1): {{orders?.shipping.addressLine1}}
+    <br>
+    Adresa (adresa 2): {{orders?.shipping.addressLine2}}
+  </p>
+  Produse:
+  <ul *ngFor="let order of orders.items">
+    <li *ngIf="order.quantity>0">
+      nume: {{ order.product.title }}
+      <br>
+      cantitate: {{ order.quantity }}
+      <br>
+      Pret total: {{ order.totalPrice | currency: 'USD': true }}
+    </li>
+  </ul>
+  Pret total: {{totalPrices | currency: 'USD': true}}
+</div>

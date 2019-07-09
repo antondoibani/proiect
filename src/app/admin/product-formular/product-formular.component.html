@@ -1,0 +1,81 @@
+<!-- by class="col-md-6" we Divide the page into 2 columns (2 parts: left and right) -->
+<!-- in the left we will put the form and in the right the preview card -->
+<div class="row">
+  <div class="col-md-6">
+    <!-- we handle the ngSubmit event of this form by calling save() method -->
+    <!-- since we want to pass the json object as a value to this form, we define a template variable #f, whith this we can get the value of this form with f.value -->
+    <form #f="ngForm" (ngSubmit)="save(f.value)">
+      <div class="form-group">
+        <label for="title">Titlu</label>
+        <!-- ngModel added in order to push data to the database, name="..." represent the name of the property within the json object -->
+        <!-- #title is a template variable (set to ngModel) this will allow us to check if this input field is touched, valid, dirty....  -->
+        <!--[(ngModel)]="product.title" is used as double binding, if clicking on edit in the product page this page will be accessed and populated with product.tile value-->
+        <input #title="ngModel" [(ngModel)]="product.title" name="title" id="title" type="text" class="form-control"
+          required>
+        <!--div for displaying validations (if title field is touched and invalid-->
+        <div class="alert alert-danger" *ngIf="title.touched && title.invalid">
+          Titlu este obligatoriu
+        </div>
+      </div>
+
+
+      <label for="price">Pret</label>
+      <div class="input-group mb-3 form-group">
+        <!-- wrap below into a div and use span in order to have the sign -->
+           <div>
+            <span class="input-group-text">RON</span>
+          </div>
+          <!-- at the end of the bwloe line [min]="0" is part of ng2-validation (same custom validation are done throw the all inputs) -->
+          <input #price="ngModel" [(ngModel)]="product.price" name="price" id="price" type="number" class="form-control"
+            required [min]="0">
+          <!-- wrap below into a div and use span in order to have .00 at the end of the line -->
+          <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+          </div>
+      </div>
+      <div class="alert alert-danger" *ngIf="price.touched && price.invalid">
+        <div *ngIf="price.errors.required">Pretul este obligatoriu</div>
+        <div *ngIf="price.errors.min">Pretul trebuie sa fie mai mare ca 0</div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="category">categoria</label>
+        <select #category="ngModel" [(ngModel)]="product.category" name="category" id="category" class="form-control"
+          required>
+          <option value=""></option>
+          <!-- added in order to show the categories in the drop-down list -->
+          <option *ngFor="let c of categories$ | async" [value]="c.key">
+            {{c.payload.val().name}}
+          </option>
+        </select>
+        <div class="alert alert-danger" *ngIf="category.touched && category.invalid">
+          Categoria este obligatorie
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="imageUrl">Imagine Url</label>
+        <!-- at the end of the bwloe line url is part of ng2-validation-custom validator (same custom validation are done throw the all inputs) -->
+        <input #imageUrl="ngModel" [(ngModel)]="product.imageUrl" name="imageUrl" id="imageUrl" type="text"
+          class="form-control" required url>
+        <div class="alert alert-danger" *ngIf="imageUrl.touched && imageUrl.invalid">
+          <div *ngIf="imageUrl.errors.required">Imaginea URL este obligatorie</div>
+          <div *ngIf="imageUrl.errors.url">Va rog adaugati un URL valid</div>
+        </div>
+      </div>
+      <button class="btn btn-primary">Salveaza</button>
+      <!-- type button since we do not want to submit the form  -->
+      <button type="button" (click)="delete()" class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <!-- the part which coresponds to the preview card, bind it to the #... (template) -->
+    <div class="card" style="width: 18rem;" *ngIf="product.title">
+      <img [src]="imageUrl.value" class="card-img-top" *ngIf="product.imageUrl">
+      <div class="card-body">
+        <h5 class="card-title">{{ title.value }}</h5>
+        <p class="card-text">{{ price.value | currency:'RON':true  }}</p>
+      </div>
+    </div>
+  </div>
+</div>

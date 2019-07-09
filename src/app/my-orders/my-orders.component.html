@@ -1,0 +1,20 @@
+<h1>Comezile mele</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Cumparator</th>
+      <th>Data</th>
+      <th></th>
+    </tr>
+  </thead> 
+  <tbody>
+    <tr *ngFor="let order of orders$ | async">
+      <td>{{ order.shipping.name }}</td>
+      <td>{{ order.datePlaced | date}}</td>
+      <td>
+        <button type="button" class="btn btn-link"
+        (click)="openOrderDetailsModal(order)">Vizualizare</button>
+      </td>
+    </tr> 
+  </tbody> 
+</table>

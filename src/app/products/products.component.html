@@ -1,0 +1,64 @@
+<div class="row">
+
+  <div class="col-3">
+    <div class="sticky-top">
+      <!-- to randor the categories into a ul / li, remember <div class="col-3"> means that for this we use 3 of 12 bottstrap columns (since bootstrap divides the screen into 12 columns-->
+      <div class="list-group">
+        <!-- make sure that you have all categories, incase in which you want to see all products-->
+        <a class="list-group-item list-group-item-action" [class.active]="!category" routerLink="/">
+          Toate Categoriile
+        </a>
+
+        <!-- note; "| async" is very important since it reverts the result into an array-->
+        <a *ngFor="let c of categories$ | async" routerLink="/" [queryParams]="{category: c.payload.val().name}"
+          class="list-group-item list-group-item-action" [class.active]="category === c.payload.val().name">
+          {{c.payload.val().name}}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-9">
+    <!--we will randor all products using bootstrap card -->
+    <!--class row, class col and class=w-100 will ceate the grid for the below -->
+    <!-- let i = index,   we do a for and in i we store the index, since i starts with 0 in class w-100 we need to do i+1, so on each 2 lines we will add a space-->
+    <div class="row">
+      <ng-container *ngFor="let product of filteredProducts; index as i">
+        <div class="col">
+          <div class="card" style="width: 24em;">
+            <img class="card-img-top" [src]="product.imageUrl" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title">{{ product.title }}</h4>
+              <p class="card-text">{{ product.price | currency:'RON':true }}</p>
+            </div>
+            <div *ngIf="showActions" class="card-footer">
+              <button *ngIf="getQuantity(product) === 0; else updateQuantity" class="btn btn-secondary btn-block"
+                (click)="addToCart(product)">Adauga la Cos</button>
+              <!--In order to display a button to increase and to dicrease and also the quantity( all from the shopping cart)-->
+              <ng-template #updateQuantity>
+                <div class="row no-gutters">
+                  <div class="col-2">
+                    <button (click)="removeFromCart(product)" class="btn btn-secondary btn-block">-</button>
+                  </div>
+                  <div class="col text-center">{{ getQuantity(product) }} in cos</div>
+                  <div class="col-2">
+                    <button (click)="addToCart(product)" class="btn btn-secondary btn-block">+</button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="(1+i) % 2 === 0" class="w-100 p-3"></div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!--
+<h1>Products Search</h1>
+<input type="text" (keydown)="search($event)" placeHolder="search products" class="input">
+<div *ngFor="let a of searchedProducts">
+  <h4>{{a?.title}} </h4>
+  <p>{{a?.price}}</p>
+-->

@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <!--put everything in the div with classc container in order to have the navbar alligned with rest content of the page-->
+  <div class="container">
+    <a class="navbar-brand" routerLink="/"><i class="fa fa-globe" aria-hidden="true"></i></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+      aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shopping-cart">
+            <!--added the shopping-cart icon instead of cos de cumparaturi-->
+            <!--  <i class="fa fa-shopping-cart" aria-hidden="true"></i> -->
+            Cos de Cumparaturi
+            <!--Show the ShoppingCartItemCount-->
+            <span class="badge badge-warning bandge-pill">
+              {{ shoppingCartItemCount }}
+            </span>
+          </a>
+        </li>
+      </ul>
+      <!--put the login or the drop-down list on the left of the page-->
+      <ul class="navbar-nav">
+        <!-- Add the template for the anonymous user, thus, if user is not logged which means we do not have user object (*ngIf="user$") below will be shown -->
+        <ng-template #anonymousUser>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login">Conecteaza-te</a>
+          </li>
+        </ng-template>
+        <li ngbDropdown *ngIf="appUser; else anonymousUser" class="nav-item dropdown">
+          <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {{appUser.name}}</a>
+          <div ngbDropdownMenu class="dropdown-menu " aria-labelledby="dropdown01">
+            <a class="dropdown-item" routerLink="/my-orders">Comenzile mele</a>
+            <ng-container *ngIf="appUser.isAdmin">
+              <a class="dropdown-item" routerLink="/admin/orders">Administrare Comenzi</a>
+              <a class="dropdown-item" routerLink="/admin/products">Administrare Produse</a>
+            </ng-container>
+            <a class="dropdown-item" (click)="logout()">Deconecteaza-te</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<loading-spinner *ngIf="showSpinner"></loading-spinner>
+<main role="main" class="container"></main>

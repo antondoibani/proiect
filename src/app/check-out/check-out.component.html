@@ -1,0 +1,45 @@
+<h2>Shipping</h2>
+<div class="row">
+  <div class="col-6">
+    <form #f="ngForm">
+      <div class="form-group">
+        <label for="">Nume</label>
+        <input #name="ngModel" name="name" [(ngModel)]="shipping.name" type="text" class="form-control"
+          placeholder="Numele complet" required>
+        <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+          <div *ngIf="name.errors.required">Numele este obligatoriu.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Adresa</label>
+        <input #addressLine1="ngModel" name="addressLine1" [(ngModel)]="shipping.addressLine1" type="text"
+          class="form-control" placeholder="Adresa de baza" required>
+        <div class="alert alert-danger" *ngIf="addressLine1.touched && addressLine1.invalid">
+          <div *ngIf="addressLine1.errors.required">Adresa este obligatorie.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for=""></label>
+        <input #addressLine2="ngModel" name="addressLine2" [(ngModel)]="shipping.addressLine2" type="text"
+          class="form-control" placeholder="Adresa de rezerva" required>
+        <div class="alert alert-danger" *ngIf="addressLine2.touched && addressLine2.invalid">
+          <div *ngIf="addressLine2.errors.required">Adresa de rezerva este obligatorie.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Oras</label>
+        <input #city="ngModel" name="city" [(ngModel)]="shipping.city" type="text" class="form-control"
+          placeholder="Oras" required>
+        <div class="alert alert-danger" *ngIf="city.touched && city.invalid">
+          <div *ngIf="city.errors.required">Orasul este obligatoriu.</div>
+        </div>
+      </div>
+      <!--Disable the button if the #f form is invalid-->
+      <button [disabled]="!f.valid" (click)="placeOrder()" class="btn btn-primary">Plaseaza comanda</button>
+    </form>
+  </div>
+  <div class="col-6">
+    <!--[cart] is in order to pass the data to the shopping-cart-summary-->
+   <shopping-cart-summary [cart]="cart"></shopping-cart-summary> 
+  </div>
+</div>

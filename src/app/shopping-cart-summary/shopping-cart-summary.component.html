@@ -1,0 +1,27 @@
+<div class="card" *ngIf="cartItems">
+  <img class="card-img-top"
+    src="https://blog.salecycle.com/wp-content/uploads/2016/02/h-wide-what-is-cart-abandonment.jpg"
+    alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Sumar Comanda</h5>
+    <p class="card-text">Aveti {{itemCount}} produse in cosul de cumparaturi</p>
+    <!--list-group-flush class used in order not to have borders in the summary per lines-->
+    <ul class="list-group list-group-flush">
+      <span *ngFor="let item of cartItems">
+      <li *ngIf="item.quantity>0" class="list-group-item">
+          {{item.quantity}} x {{item.product.title}}
+          <div class="float-right" *ngIf="item.quantity>0">
+            {{item.product.price*item.quantity | currency: 'RON': true}}
+          </div>
+      </li>
+      </span>
+      <!--font-weight-bold class used to show Total as bold-->
+      <li class="list-group-item font-weight-bold">
+        Total
+        <div class="float-right">
+          {{totalPrice | currency: 'RON': true}}
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<p>
+  <a routerLink="/admin/products/new" class="btn btn-primary">Adauga Produs</a>
+</p>
+<!-- Add the filter icon the header of the table, query makes directly the search (existing)-->
+<p>
+  <input #query (keyup)="filter(query.value)" type="text" class="form-control" placeholder="Search...">
+</p>
+<!--data-table gives us paginiging, sorting, ...-->
+<!-- [item] property - the product or the row in the page binding to a field items-->
+<!--[itemcount] property - used to calculate the number of pages and binding it to a separate field -->
+<!--event reload wherevr 1 of the parameters is changed (number of pages, sort) this method is called -->
+<data-table [title]="'Produse'" [items]="items" [itemCount]="itemCount" [pageLimits]="limits" (reload)="reloadItems($event)" [limit]="100">
+  <!--Now we add the columns with lots of properties  "''" - since we want to indicate that this is a string not a field-->
+  <data-table-column [property]="'title'" [header]="'Titlu'" [sortable]="true" [resizable]="true">
+  </data-table-column>
+    <data-table-column [property]="'price'" [header]="'Pret'" [sortable]="true" [resizable]="true">
+    <!--variable #dataTableCell is important since we make a variable for Cell not the header, atribute let-item is used to get the refference in the current product -->
+   <ng-template #dataTableCell let-item="item">
+      {{item.price | currency:'RON':true}}
+    </ng-template>  
+  </data-table-column>
+  <data-table-column>
+    <!--variable #dataTableCell is important since we make a variable for Cell not the header, atribute let-item is used to get the refference in the current product -->
+    <ng-template #dataTableCell let-item="item">
+      <a [routerLink]="['/admin/products/', item.id]">Modifica</a>
+    </ng-template>
+  </data-table-column>
+</data-table>

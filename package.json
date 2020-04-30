@@ -34,7 +34,7 @@
     "firebase-tools": "^6.5.0",
     "font-awesome": "^4.7.0",
     "g": "^2.0.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "karma-cli": "^2.0.0",
     "ng2-validation": "^4.2.0",
     "ngx-bootstrap": "^4.0.0",
